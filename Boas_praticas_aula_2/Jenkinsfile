@@ -12,7 +12,7 @@ pipeline {
             steps {
                 script {
                     // Configurar o ambiente de compilação
-                    def mvnHome = tool 'Maven'
+                    def mvnHome = tool 'Maven 3.9.5'
                     env.PATH = "${mvnHome}/bin:${env.PATH}"
 
                     // Compilar o projeto
