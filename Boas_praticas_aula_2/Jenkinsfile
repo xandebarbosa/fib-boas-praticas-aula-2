@@ -15,8 +15,14 @@ pipeline {
                     def mvnHome = tool 'Maven 3.9.5'
                     env.PATH = "${mvnHome}/bin:${env.PATH}"
 
-                    // Compilar o projeto
-                    sh 'mvn clean package'
+                    // Verificar o sistema operacional
+                    def isWindows = isUnix() ? false : true
+
+                    // Comando de compilação
+                    def buildCommand = isWindows ? 'mvn clean package' : 'mvn clean package &'
+
+                    // Executar o comando
+                    sh buildCommand
                 }
             }
         }
