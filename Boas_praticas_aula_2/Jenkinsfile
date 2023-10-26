@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                script {
+                    // Configurar o ambiente de compilação
+                    def mvnHome = tool 'Maven'
+                    env.PATH = "${mvnHome}/bin:${env.PATH}"
+
+                    // Compilar o projeto
+                    sh 'mvn clean package'
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script {
+                    // Publicar o JAR ou outros artefatos
+                    archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+                }
+            }
+        }
+    }
+}
